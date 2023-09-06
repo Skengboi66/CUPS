@@ -26,5 +26,13 @@ def supervisor():
 def admin():
     return render_template('adminHome.html')
 
+@app.route('/addAccount')
+def admin():
+    return render_template('addAccount.html')
+
+@app.route('/deleteAccount')
+def admin():
+    return render_template('deleteAccount.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
