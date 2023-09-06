@@ -1,8 +1,8 @@
 # Configure the AWS provider
 provider "aws" {
   region = "us-east-1" # Replace this with your desired AWS region
-  access_key = 
-  secret_key = 
+  //access_key = 
+  //secret_key = 
 }
 
 # Create a new security group to allow SSH access (Port 22) and HTTP access (Port 80)
