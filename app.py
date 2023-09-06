@@ -6,7 +6,7 @@ app = Flask (__name__)
 
 
 #page routing 
-@app.route('/')
+@app.route('/home')
 def home():
     return render_template('home.html') 
 
@@ -14,7 +14,17 @@ def home():
 def login():
     return render_template('login.html')
 
+@app.route('/student')
+def student():
+    return render_template('studentHome.html')
 
+@app.route('/supervisor')
+def supervisor():
+    return render_template('supervisorHome.html')
+
+@app.route('/admin')
+def admin():
+    return render_template('adminHome.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

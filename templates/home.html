@@ -10,11 +10,11 @@
 </head>
 <body>
     <h1>Welcome to CUPS</h1>
-    <form action="{{ login.html }}">
+    <form action="{{ url_for('login') }}">
         <button type="submit">Login page</button>
     </form>
 
-    <form action="{{ url_for('page2') }}">
+    <form action="{{ url_for('home') }}">
         <button type="submit">Go to Page 2</button>
     </form>
 </body>
