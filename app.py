@@ -82,13 +82,36 @@ def supervisor():
 def admin():
     return render_template('adminHome.html')
 
-@app.route('/addAccount')
-def add_account():
-    return render_template('addAccount.html')
+@app.route('/addCompanySupervisor')
+def add_student():
+    return render_template('addStudent.html')
+
+@app.route('/addUniveristySupervisor')
+def add_uniSupervisor():
+    return render_template('addUniveristySupervisor.html')
+
+@app.route('/addCompanySupervisor')
+def add_CompanySupervisor():
+    return render_template('addCompanySupervisor.html')
 
 @app.route('/deleteAccount')
 def delete_account():
     return render_template('deleteAccount.html')
+
+@app.route('/users')
+def view_users():
+    users = User.query.all()
+    return render_template('user_list.html', users=users)
+
+@app.route('/delete_user/<int:user_id>', methods=['GET', 'POST'])
+def delete_user(user_id):
+    user = User.query.get_or_404(user_id)
+    if request.method == 'POST':
+        db.session.delete(user)
+        db.session.commit()
+        return redirect(url_for('view_users'))
+    return render_template('delete_user.html', user=user)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
