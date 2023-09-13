@@ -6,8 +6,11 @@
     <title>Login Page</title>
     <style>
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            font-famly: Arial, Helvetica, sans-serif;
             background-color: #f2f2f2;
+            background-image: url("/static/background.png"); 
+            background-size: cover; 
+            background-repeat: no-repeat;
         }
         .login-container {
             max-width: 300px;
@@ -60,12 +63,12 @@
             <div class="form-group">
                 <button type="submit">Login</button>
             </div>
-            <div>
-            <form action="{{ url_for('home') }}">
-                <button type="submit">back to home</button>
-            </form>
-            </div>
         </form>
+        <div class="form-group">
+            <form action="{{ url_for('home') }}">
+                <button type="submit">Back to home</button>
+            </form>
+        </div>    
         {% if error_message %}
         <p>{{ error_message }}</p>
         {% endif %}
