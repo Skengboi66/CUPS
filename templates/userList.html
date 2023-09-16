@@ -62,7 +62,7 @@
                 <td>{{ user.university_supervisor }}</td>
                 <td>{{ user.company_supervisor }}</td>
                 <td>
-                    <a href="{{ url_for('delete_user', user_id=user.id) }}">Delete</a>
+                    <a href="{{ url_for('delete_account', user_id=user.id) }}">Delete</a>
                 </td>
             </tr>
             {% endfor %}

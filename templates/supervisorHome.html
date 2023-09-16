@@ -8,6 +8,12 @@
 </head>
 <body>
     <h1>Supervisor Homepage</h1>
+    <h1>Provide Feedback</h1>
+    <form method="POST" action="{{ url_for('submit_feedback', student_id=student.id) }}">
+        <label for="feedback">Feedback:</label><br>
+        <textarea name="feedback" id="feedback" rows="4" cols="50"></textarea><br>
+        <input type="submit" value="Submit">
+    </form>
 
 </body>
 </html>

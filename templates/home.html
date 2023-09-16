@@ -45,13 +45,19 @@
     }
 </style>
 <body>
-    <h1>Welcome to CUPS</h1>
-    <form action="{{ url_for('login') }}">
-        <button type="submit">Login page</button>
-    </form>
+    <h1>Welcome to CUFPS</h1>
 
     <form action="{{ url_for('adminLogin') }}">
         <button type="submit">Admin Login</button>
     </form>
+    
+    <form action="{{ url_for('login') }}">
+        <button type="submit">Student Login</button>
+    </form>
+
+    <form action="{{ url_for('company_supervisor_login') }}">
+        <button type="submit">Company Supervisor Login</button>
+    </form>
+
 </body>
 </html>
