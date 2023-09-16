@@ -1,27 +1,43 @@
-pipeline{
+pipeline {
+    agent any // You can specify a specific agent if needed
 
-    agent any
+    stages {
+        stage('Build') {
+            steps {
+                // Checkout your source code from a Git repository
+                git(url: 'https://github.com/Skengboi66/CUPS', branch: 'main')
 
-    stages{
-         stage("build"){
-              steps{
-                  echo 'building the application...'
-              }
-         stage("test"){
-              steps{
-                  echo 'testing the application...'
-              }
-         }
-         stage("deploy"){
-              steps{
-                  echo 'deploying the application...'
+                // Build your application (Replace with actual build commands)
+                sh 'echo "Building Hello, World!"'
+            }
+        }
 
-              }
-         }
+        stage('Deploy') {
+            when {
+                // Deploy only if the Build stage succeeded
+                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
+            }
+            steps {
+                // Deploy the application (Replace with actual deployment commands)
+                sh 'echo "Deploying Hello, World!"'
+
+                // Send a notification or trigger further actions (e.g., testing) here
+            }
         }
     }
-}
 
-node {
-    //groovy script
+    post {
+        success {
+            // This block will be executed if the pipeline succeeds
+            echo 'Pipeline succeeded!'
+
+            // You can add post-success actions here
+        }
+        failure {
+            // This block will be executed if the pipeline fails
+            echo 'Pipeline failed!'
+
+            // You can add post-failure actions here
+        }
+    }
 }
