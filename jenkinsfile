@@ -8,7 +8,7 @@ pipeline {
                 git(url: 'https://github.com/Skengboi66/CUPS', branch: 'main')
 
                 // Build your application (Replace with actual build commands)
-                sh 'echo "Building Hello, World!"'
+                sh 'echo "building application"'
             }
         }
 
@@ -18,8 +18,14 @@ pipeline {
                 expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
             }
             steps {
-                // Deploy the application (Replace with actual deployment commands)
-                sh 'echo "Deploying Hello, World!"'
+                / // Define your EC2 instance details
+            def ec2Host = '54.164.126.244' // Replace with your EC2 instance's public IP or hostname
+            def ec2User = 'ubuntu' // Replace with your EC2 instance's SSH username
+            def ec2Key = '/path/to/your/private/key.pem' // Replace with the path to your SSH private key
+
+            // Define your application directory and deployment commands
+            def appDirectory = '/path/to/your/application' // Replace with your application directory on the EC2 instance               
+                sh 'echo "deploying on EC2"'
 
                 // Send a notification or trigger further actions (e.g., testing) here
             }
