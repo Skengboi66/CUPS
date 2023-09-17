@@ -18,7 +18,7 @@ pipeline {
                 expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
             }
             steps {
-                / // Define your EC2 instance details
+                //Define your EC2 instance details
             def ec2Host = '3.92.128.191' // Replace with your EC2 instance's public IP or hostname
             def ec2User = 'ubuntu' // Replace with your EC2 instance's SSH username
             def ec2Key = '/path/to/your/private/key.pem' // Replace with the path to your SSH private key
