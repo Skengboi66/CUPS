@@ -24,7 +24,7 @@ pipeline {
             def ec2Key = '/path/to/your/private/key.pem' // Replace with the path to your SSH private key
 
             // Define your application directory and deployment commands
-            def appDirectory = '/path/to/your/application' // Replace with your application directory on the EC2 instance               
+            def appDirectory = '/home/ubuntu/web_app' // Replace with your application directory on the EC2 instance               
                 sh 'echo "deploying on EC2"'
 
                 // Send a notification or trigger further actions (e.g., testing) here
