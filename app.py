@@ -35,7 +35,7 @@ class Feedback(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     student = db.relationship('User', backref=db.backref('feedback', lazy=True))
 
-from app import routes
+
 
 with app.app_context():
     db.create_all()
