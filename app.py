@@ -39,8 +39,6 @@ class Feedback(db.Model):
     problem_solving = db.Column(db.Integer)
 
 
-
-@app.before_first_request
 def create_tables():
     db.create_all()
 
@@ -94,21 +92,19 @@ def adminLogin():
 
     return render_template('adminLogin.html', error_message=error_message if 'error_message' in locals() else '')
 
-@app.route('/addAccount', methods=['GET', 'POST'])
-def registration():
+@app.route('/addSupervisor', methods=['GET', 'POST'])
+def add_supervisor():
     if request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
         company = request.form['company']
-        university_supervisor = request.form['university_supervisor']
-        company_supervisor = request.form['company_supervisor']
 
-        new_user = User(
+
+        new_user = CompanySupervisor(
             name=name,
             email=email,
+            password=password,
             company=company,
-            university_supervisor=university_supervisor,
-            company_supervisor=company_supervisor
         )
 
         db.session.add(new_user)
@@ -116,7 +112,7 @@ def registration():
 
         return redirect(url_for('admin'))
 
-    return render_template('registration.html')
+    return render_template('addCompanySupervisor.html')
 
 @app.route('/addStudent', methods=['GET', 'POST'])
 def add_student():
@@ -144,7 +140,7 @@ def add_student():
         except Exception as e:
             error_message = str(e)
 
-    return render_template('adminHome.html', error_message=error_message)
+    return render_template('addStudent.html', error_message=error_message)
 
 @app.route('/deleteAccount/<int:user_id>', methods=['GET', 'POST'])
 def delete_account(user_id):
