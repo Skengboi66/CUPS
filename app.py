@@ -7,7 +7,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///registration.db'
 db = SQLAlchemy(app)
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
@@ -19,7 +19,7 @@ class User(db.Model):
         return f"User('{self.name}', '{self.email}', '{self.company}', '{self.university_supervisor}', '{self.company_supervisor}')"
     
 class CompanySupervisor(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    supervisor_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
@@ -31,14 +31,66 @@ class CompanySupervisor(db.Model):
     
 class Feedback(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.Text, nullable=False)
-    student_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    student = db.relationship('User', backref=db.backref('feedback', lazy=True))
+    student_id = db.Column(db.Integer, db.ForeignKey('users.student_id'), nullable=False)
+    quality_of_work = db.Column(db.Integer)
+    communication_skills = db.Column(db.Integer)
+    punctuality = db.Column(db.Integer)
+    teamwork = db.Column(db.Integer)
+    problem_solving = db.Column(db.Integer)
 
 
 
 with app.app_context():
     db.create_all()
+
+
+#page routing 
+@app.route('/')
+def home():
+    return render_template('home.html') 
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('feedback')
+def feedback():
+    return render_template('studentFeedback.html') 
+
+@app.route('/companysupervisorlogin')
+def company_supervisor_login():
+    return render_template('companySupervisorLogin.html')
+
+@app.route('/addCompanySupervisor')
+def add_CompanySupervisor():
+    return render_template('addCompanySupervisor.html')
+
+@app.route('/student')
+def student():
+    return render_template('studentHome.html')
+
+@app.route('/supervisor')
+def supervisor():
+    return render_template('supervisorHome.html')  
+ 
+@app.route('/admin')
+def admin():
+    return render_template('adminHome.html')
+
+@app.route('/adminLogin', methods=['GET', 'POST'])
+def adminLogin():
+    if request.method == 'POST':
+            username = request.form['username']
+            password = request.form['password']
+
+            # Check if the provided username and password match the hardcoded admin credentials
+            if username == 'admin' and password == 'admin123':
+                # Redirect to a dashboard or another page on successful login
+                return redirect(url_for('admin'))
+            else:
+                error_message = "Invalid credentials. Please try again."
+
+    return render_template('adminLogin.html', error_message=error_message if 'error_message' in locals() else '')
 
 @app.route('/addAccount', methods=['GET', 'POST'])
 def registration():
@@ -69,46 +121,6 @@ def registration():
 
     return render_template('registration.html')
 
-#page routing 
-@app.route('/')
-def home():
-    return render_template('home.html') 
-
-@app.route('/login')
-def login():
-    return render_template('login.html')
-
-@app.route('/adminLogin', methods=['GET', 'POST'])
-def adminLogin():
-    if request.method == 'POST':
-            username = request.form['username']
-            password = request.form['password']
-
-            # Check if the provided username and password match the hardcoded admin credentials
-            if username == 'admin' and password == 'admin123':
-                # Redirect to a dashboard or another page on successful login
-                return redirect(url_for('admin'))
-            else:
-                error_message = "Invalid credentials. Please try again."
-
-    return render_template('adminLogin.html', error_message=error_message if 'error_message' in locals() else '')
-
-@app.route('/companysupervisorlogin')
-def company_supervisor_login():
-    return render_template('companySupervisorLogin.html')
-
-#
-@app.route('/student')
-def student():
-    return render_template('studentHome.html')
-
-@app.route('/supervisor')
-def supervisor():
-    return render_template('supervisorHome.html')  
- 
-@app.route('/admin')
-def admin():
-    return render_template('adminHome.html')
 
 @app.route('/addStudent', methods=['GET', 'POST'])
 def add_student():
@@ -151,9 +163,6 @@ def delete_account(user_id):
 
     return render_template('deleteAccount.html', user=user)
 
-@app.route('/addCompanySupervisor')
-def add_CompanySupervisor():
-    return render_template('addCompanySupervisor.html')
 
 @app.route('/provide_feedback/<int:user_id>', methods=['GET', 'POST'])
 def provide_feedback(user_id):
@@ -177,6 +186,29 @@ def view_users():
     users = User.query.all()
     return render_template('userList.html', users=users.query.all())
 
+def submit():
+    if request.method == 'POST':
+        criteria = [
+            'Quality of Work',
+            'Communication Skills',
+            'Punctuality',
+            'Teamwork',
+            'Problem Solving'
+        ]
 
+        feedback = Feedback(
+            quality_of_work=int(request.form.get('Quality of Work')),
+            communication_skills=int(request.form.get('Communication Skills')),
+            punctuality=int(request.form.get('Punctuality')),
+            teamwork=int(request.form.get('Teamwork')),
+            problem_solving=int(request.form.get('Problem Solving'))
+        )
+
+        db.session.add(feedback)
+        db.session.commit()
+
+        return "Feedback submitted successfully!"
+    
+    
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
