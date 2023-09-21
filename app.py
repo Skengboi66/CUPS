@@ -114,7 +114,7 @@ def registration():
         db.session.add(new_user)
         db.session.commit()
 
-        return redirect(url_for('registration'))
+        return redirect(url_for('admin'))
 
     return render_template('registration.html')
 
