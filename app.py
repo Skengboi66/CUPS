@@ -75,8 +75,40 @@ def supervisor():
 @app.route('/admin')
 def admin():
     return render_template('adminHome.html')
-
+#admin login 
 @app.route('/adminLogin', methods=['GET', 'POST'])
+def adminLogin():
+    error_message = None  # Initialize error_message
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        # Check if the provided username and password match the hardcoded admin credentials
+        if username == 'admin' and password == 'admin123':
+            # Redirect to a dashboard or another page on successful login
+            return redirect(url_for('admin'))
+        else:
+            error_message = "Invalid credentials. Please try again."
+
+    return render_template('adminLogin.html', error_message=error_message if 'error_message' in locals() else '')
+#student login
+@app.route('/studentLogin', methods=['GET', 'POST'])
+def adminLogin():
+    error_message = None  # Initialize error_message
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        # Check if the provided username and password match the hardcoded admin credentials
+        if username == 'admin' and password == 'admin123':
+            # Redirect to a dashboard or another page on successful login
+            return redirect(url_for('admin'))
+        else:
+            error_message = "Invalid credentials. Please try again."
+
+    return render_template('adminLogin.html', error_message=error_message if 'error_message' in locals() else '')
+#supervisor login 
+@app.route('/supervisorLogin', methods=['GET', 'POST'])
 def adminLogin():
     error_message = None  # Initialize error_message
     if request.method == 'POST':
